@@ -1,0 +1,14 @@
+name: ort-gpu
+channels:
+  - conda-forge
+  - pytorch
+dependencies:
+  - python=3.9
+  - cudatoolkit=11.5
+  - numpy
+  - pillow
+  - protobuf
+  - onnx=1.14.1
+  - pytorch
+  - torchvision
+  - torchaudio
