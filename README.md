@@ -11,6 +11,8 @@ Pietro Bonazzi, Rafael Sutter, Luigi Capogrosso, Mischa Buob, Michele Magno
 * [🔧 Environments](#environments)
 * [📊 Data Preparation](#data-preparation)
 * [🚀 Run Experiments](#run-experiments)
+* [📦 Pretrained Checkpoints](#pretrained-checkpoints)
+* [🎥 IMX500 Demo](#imx500-demo)
 * [📂 Dataset Release](#dataset-release)
 * [🔗 Citation](#citation)
 * [🙏 Acknowledgements](#acknowledgements)
@@ -87,6 +89,42 @@ Pretrained model checkpoints are available on [HuggingFace](https://huggingface.
 from huggingface_hub import snapshot_download
 snapshot_download(repo_id="pietrobonazzi/TinyGLASS", local_dir="checkpoints")
 ```
+
+| Dataset | Classes | Image AUROC |
+|---------|---------|------------|
+| MMS (mms_rpi) | 1 | in progress |
+| MVTec AD | 15 | in progress |
+
+## IMX500 Demo
+
+`demo_imx500.py` supports two modes:
+
+**Image mode** — run on any machine with a checkpoint:
+```bash
+# Download checkpoint
+python -c "
+from huggingface_hub import hf_hub_download
+hf_hub_download('pietrobonazzi/TinyGLASS',
+    'models/backbone_0/mvtec_mms_rpi/ckpt_best_1.pth',
+    local_dir='checkpoints')
+"
+
+# Run inference and save heatmap
+uv run python demo_imx500.py image \
+    --checkpoint checkpoints/models/backbone_0/mvtec_mms_rpi/ckpt_best_1.pth \
+    --input path/to/image.png \
+    --threshold 0.5
+```
+
+**Live mode** — Raspberry Pi with IMX500 camera:
+```bash
+uv run python demo_imx500.py live \
+    --rpk path/to/network.rpk \
+    --checkpoint checkpoints/models/backbone_0/mvtec_mms_rpi/ckpt_best_1.pth \
+    --threshold 0.5
+```
+
+The live view shows three panels side by side: raw camera frame | CPU GLASS heatmap | IMX500 NPU heatmap. Press `q` to exit.
 
 ## Dataset Release
 
