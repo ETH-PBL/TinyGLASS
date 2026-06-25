@@ -37,6 +37,6 @@ python main.py \
     --rand_aug 1 \
     --batch_size 8 \
     --resize 256 \
-    --imagesize 256 "${flags[@]}" mvtec $datapath $augpath
+    --imagesize 256 "${flags[@]}" mms $datapath $augpath
 
 echo "Done MMS at $(date)"
