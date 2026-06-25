@@ -511,6 +511,8 @@ class GLASS(torch.nn.Module):
             fake_points = fake_flat[mask_flat == 1]
             true_points = true_flat[mask_flat == 1]
             c_f_points = center_flat[mask_flat == 1]
+            if fake_points.shape[0] == 0:
+                continue
             dist_f = torch.norm(fake_points - c_f_points, dim=1)
             r_f = torch.tensor([torch.quantile(dist_f, q=self.radius)]).to(self.device)
             proj_feats = c_f_points if self.svd == 1 else true_points
