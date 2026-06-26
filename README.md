@@ -80,15 +80,15 @@ snapshot_download(repo_id="pietrobonazzi/TinyGLASS", local_dir="checkpoints")
 
 | Dataset | Class | Best epoch | Image AUROC | Pixel AUROC |
 |---------|-------|-----------|------------|------------|
-| MMS | mms_rpi | in progress | in progress | in progress |
-| MVTec | carpet | in progress | in progress | in progress |
-| MVTec | grid | in progress | in progress | in progress |
-| MVTec | leather | in progress | in progress | in progress |
-| MVTec | tile | in progress | in progress | in progress |
-| MVTec | wood | in progress | in progress | in progress |
-| MVTec | bottle | in progress | in progress | in progress |
-| MVTec | cable | in progress | in progress | in progress |
-| MVTec | capsule | in progress | in progress | in progress |
+| MMS | mms_rpi | 334 | 91.41% | — |
+| MVTec | carpet | 24 | 97.39% | 99.34% |
+| MVTec | grid | 124 | 94.40% | 94.55% |
+| MVTec | leather | 14 | 100.00% | 99.26% |
+| MVTec | tile | 79 | 99.53% | 88.21% |
+| MVTec | wood | 99 | 99.39% | 96.59% |
+| MVTec | bottle | 14 | 99.68% | 92.86% |
+| MVTec | cable | 49 | 88.01% | 79.82% |
+| MVTec | capsule | 44 | 94.22% | 92.00% |
 | MVTec | hazelnut | 119 | 99.89% | 96.83% |
 | MVTec | metal_nut | 104 | 97.12% | 74.81% |
 | MVTec | pill | 104 | 91.76% | 96.43% |
@@ -96,7 +96,7 @@ snapshot_download(repo_id="pietrobonazzi/TinyGLASS", local_dir="checkpoints")
 | MVTec | toothbrush | 144 | 95.00% | 98.21% |
 | MVTec | transistor | 89 | 86.79% | 75.37% |
 | MVTec | zipper | 99 | 97.40% | 98.46% |
-| **MVTec mean** | | | **91.36%** | **90.91%** |
+| **MVTec mean** | | | **94.14%** | **91.93%** |
 
 ## IMX500 Deployment
 
