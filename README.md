@@ -78,12 +78,25 @@ from huggingface_hub import snapshot_download
 snapshot_download(repo_id="pietrobonazzi/TinyGLASS", local_dir="checkpoints")
 ```
 
-| Dataset | Class | Best epoch | Image AUROC |
-|---------|-------|-----------|------------|
-| MMS | mms_rpi | in progress | in progress |
-| MVTec | carpet | in progress | in progress |
-| MVTec | hazelnut | in progress | in progress |
-| MVTec | … | in progress | in progress |
+| Dataset | Class | Best epoch | Image AUROC | Pixel AUROC |
+|---------|-------|-----------|------------|------------|
+| MMS | mms_rpi | in progress | in progress | in progress |
+| MVTec | carpet | in progress | in progress | in progress |
+| MVTec | grid | in progress | in progress | in progress |
+| MVTec | leather | in progress | in progress | in progress |
+| MVTec | tile | in progress | in progress | in progress |
+| MVTec | wood | in progress | in progress | in progress |
+| MVTec | bottle | in progress | in progress | in progress |
+| MVTec | cable | in progress | in progress | in progress |
+| MVTec | capsule | in progress | in progress | in progress |
+| MVTec | hazelnut | 119 | 99.89% | 96.83% |
+| MVTec | metal_nut | 104 | 97.12% | 74.81% |
+| MVTec | pill | 104 | 91.76% | 96.43% |
+| MVTec | screw | 54 | 71.55% | 96.24% |
+| MVTec | toothbrush | 144 | 95.00% | 98.21% |
+| MVTec | transistor | 89 | 86.79% | 75.37% |
+| MVTec | zipper | 99 | 97.40% | 98.46% |
+| **MVTec mean** | | | **91.36%** | **90.91%** |
 
 ## IMX500 Deployment
 
