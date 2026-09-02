@@ -38,7 +38,10 @@ class Discriminator(torch.nn.Module):
         x = self.body(x)
         x = self.tail(x)
         # [B, 1, P, 1] -> [B, P]
-        return x.squeeze(-1).squeeze(1)
+        # flatten(1) instead of squeeze(-1).squeeze(1): squeeze(dim) exports to an
+        # ONNX If-guarded op (no-op unless the dim is size 1), which the IMX500
+        # converter cannot parse. flatten is equivalent here and export-clean.
+        return x.flatten(1)
 
 
 class Projection(torch.nn.Module):
