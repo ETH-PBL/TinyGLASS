@@ -22,6 +22,7 @@ dependencies = [
     "torchvision==0.16.2",
     "tqdm==4.66.1",
     "huggingface-hub>=0.24.0",
+    "imageio-ffmpeg>=0.5.1",
     "openpyxl>=3.1.0",
 ]
 

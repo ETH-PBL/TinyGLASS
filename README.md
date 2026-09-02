@@ -6,13 +6,53 @@ Pietro Bonazzi, Rafael Sutter, Luigi Capogrosso, Mischa Buob, Michele Magno
 [Dataset](https://zenodo.org/records/19186667) &
 [Checkpoints](https://huggingface.co/pietrobonazzi/TinyGLASS)
 
+## Results
+
+Reproduced with [`make_inference_video.py`](#inference-video) from the released checkpoints, on the full test split
+(1725 MVTec images, 139 MMS images), CPU inference at 10-15 ms/image.
+
+![MVTec AD inference](figures/mvtec_inference.gif)
+
+*MVTec AD — 8 test images per class. Full 2m45s video: `results/video/tinyglass_mvtec_inference.mp4`.*
+
+![MMS inference](figures/mms_inference.gif)
+
+*MMS `mms_rpi` — every 3rd test image. Full 56s video: `results/video/tinyglass_mms_inference.mp4`.*
+
+
+| Dataset | Class | Image AUROC | Pixel AUROC |
+|---------|-------|------------|------------|
+| MMS | mms_rpi | 91.41% | — |
+| MVTec | carpet | 97.35% | 99.10% |
+| MVTec | grid | 94.32% | 93.80% |
+| MVTec | leather | 100.00% | 99.05% |
+| MVTec | tile | 99.57% | 87.11% |
+| MVTec | wood | 99.39% | 95.75% |
+| MVTec | bottle | 99.68% | 92.53% |
+| MVTec | cable | 87.99% | 79.71% |
+| MVTec | capsule | 94.22% | 91.87% |
+| MVTec | hazelnut | 99.89% | 96.17% |
+| MVTec | metal_nut | 97.07% | 75.02% |
+| MVTec | pill | 91.79% | 96.10% |
+| MVTec | screw | 71.57% | 95.62% |
+| MVTec | toothbrush | 95.00% | 97.69% |
+| MVTec | transistor | 86.79% | 74.61% |
+| MVTec | zipper | 97.40% | 98.12% |
+| **MVTec mean** | | **94.13%** | **91.48%** |
+
+Every image AUROC lands within 0.08 pt of the [Pretrained Checkpoints](#pretrained-checkpoints)
+table; pixel AUROC is within 1.1 pt (mean 91.48% vs 91.93%). MMS has no pixel AUROC
+because the release ships image-level labels only.
+
 ## Table of Contents
+* [📈 Results](#results)
 * [📖 Introduction](#introduction)
 * [🔧 Setup](#setup)
 * [📊 Data Preparation](#data-preparation)
 * [🚀 Training](#training)
 * [📦 Pretrained Checkpoints](#pretrained-checkpoints)
 * [🎥 IMX500 Deployment](#imx500-deployment)
+* [🎬 Inference Video](#inference-video)
 * [📂 Dataset Release](#dataset-release)
 * [🔗 Citation](#citation)
 * [🙏 Acknowledgements](#acknowledgements)
@@ -161,6 +201,39 @@ python demo_imx500.py live \
 ```
 
 The live view shows three panels side by side: raw frame | CPU GLASS heatmap | IMX500 NPU heatmap. Press `q` to exit.
+
+## Inference Video
+
+`make_inference_video.py` sweeps a whole test split with the per-class checkpoints and
+renders an annotated mp4 (input | anomaly map | overlay + prediction | ground truth),
+with the image-level score bar, the per-class score timeline and the AUROC summary card.
+Metrics are always computed on the full test split; `--max-per-class` only limits how
+many images are shown.
+
+```bash
+# MVTec AD - all 15 classes
+uv run python make_inference_video.py mvtec \
+    --data-root /datasets/pbonazzi/tinyglass_mvtec \
+    --checkpoints checkpoints \
+    --out results/video/tinyglass_mvtec_inference.mp4 --max-per-class 36
+
+# MMS - mms_rpi, every test image
+uv run python make_inference_video.py mms \
+    --data-root /datasets/pbonazzi/tinyglass_mmdataset \
+    --checkpoints checkpoints \
+    --out results/video/tinyglass_mms_inference.mp4 --max-per-class 0
+```
+
+The MVTec layout expects `images/test/<class>/<defect>/` and `masks/test/<class>/<defect>/`;
+MMS expects `<class>/test/<defect>/`. Pixel AUROC is reported for MVTec only — the MMS
+release ships image-level labels (its `ground_truth` files are placeholder blocks).
+The anomaly threshold is the best-F1 operating point on each class' own test split.
+Output is re-encoded to H.264/yuv420p with the `imageio-ffmpeg` binary (OpenCV can only
+write `mp4v`, which most players refuse); without that package the raw `mp4v` file is kept.
+Preprocessing defaults to the `datasets/mvtec.py` eval pipeline (resize 256 + center crop
+256, resize 292 first for `toothbrush`/`wood`), which reproduces the reported AUROCs;
+`--preprocess demo` uses the plain 256x256 resize of `demo_imx500.py` instead.
+The numbers these two runs produce are in [Results](#results).
 
 ## Dataset Release
 

@@ -1,6 +1,7 @@
-results/
 __pycache__/
 *.pyc
 *.pyo
 datasets/excel/
 logs/
+checkpoints
+results/
